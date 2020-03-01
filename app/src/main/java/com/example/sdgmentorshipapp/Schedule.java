@@ -1,5 +1,6 @@
 package com.example.sdgmentorshipapp;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.sdgmentorshipapp.ui.home.HomeViewModel;
 import com.google.android.material.navigation.NavigationView;
 
-public class Schedule extends AppCompatActivity {
+public class Schedule extends Activity {
     @Override
     public void setContentView(View view) {
         super.setContentView(view);

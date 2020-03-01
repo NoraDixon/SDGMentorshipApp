@@ -2,14 +2,34 @@ package com.example.sdgmentorshipapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Picture;
 import android.hardware.Camera;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,148 +37,137 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class ProfileCamera extends Activity {
 
-    private boolean checkCameraHardware(Context context) {
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
-            // this device has a camera
-            return true;
-        } else {
-            // no camera on this device
-            return false;
-        }
+    ImageView imageView = (ImageView) findViewById(R.id.imageView);
+    private Camera mCamera;
+    private Picture picture;
+    private Object Activity;
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.mentor_profile_camera);
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+
+        Button next = (Button) findViewById(R.id.button_test_screen);
+        next.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
+
+        Toast.makeText(this, "Successfully Changed Screens", Toast.LENGTH_LONG).show();
+
+//        Button captureButton = (Button) findViewById(R.id.button_capture);
+//        captureButton.setOnClickListener(
+//                new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        // get an image from the camera
+//                        mCamera.takePicture(null, null, (Camera.PictureCallback) picture);
+//                    }
+//                }
+//        );
     }
 
-    public static Camera getCameraInstance(){
-        Camera c = null;
-        try {
-            c = Camera.open(); // attempt to get a Camera instance
-        }
-        catch (Exception e){
-            // Camera is not available (in use or does not exist)
-        }
-        return c; // returns null if camera is unavailable
-    }
+//    static final int REQUEST_IMAGE_CAPTURE = 1;
+//
+//    private void dispatchTakePictureIntent() {
+//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+//            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+//        }
+//    }
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+//            Bundle extras = data.getExtras();
+//            Bitmap imageBitmap = (Bitmap) extras.get("data");
+//            imageView.setImageBitmap(imageBitmap);
+//        }
+//    }
+//
+//    String currentPhotoPath;
+//
+//    private File createImageFile() throws IOException {
+//        // Create an image file name
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+//        String imageFileName = "JPEG_" + timeStamp + "_";
+//        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+//        File image = File.createTempFile(
+//                imageFileName,  /* prefix */
+//                ".jpg",         /* suffix */
+//                storageDir      /* directory */
+//        );
+//
+//        // Save a file: path for use with ACTION_VIEW intents
+//        currentPhotoPath = image.getAbsolutePath();
+//        return image;
+//    }
+//
+//    static final int REQUEST_TAKE_PHOTO = 1;
+//
+//    private void galleryAddPic() {
+//        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+//        File f = new File(currentPhotoPath);
+//        Uri contentUri = Uri.fromFile(f);
+//        mediaScanIntent.setData(contentUri);
+//        this.sendBroadcast(mediaScanIntent);
+//    }
+//
+//    private void setPic() {
+//        // Get the dimensions of the View
+//        int targetW = imageView.getWidth();
+//        int targetH = imageView.getHeight();
+//
+//        // Get the dimensions of the bitmap
+//        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+//        bmOptions.inJustDecodeBounds = true;
+//
+//        int photoW = bmOptions.outWidth;
+//        int photoH = bmOptions.outHeight;
+//
+//        // Determine how much to scale down the image
+//        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+//
+//        // Decode the image file into a Bitmap sized to fill the View
+//        bmOptions.inJustDecodeBounds = false;
+//        bmOptions.inSampleSize = scaleFactor;
+//        bmOptions.inPurgeable = true;
+//
+//        Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
+//        imageView.setImageBitmap(bitmap);
+//    }
 
-//    private PictureCallback mPicture = new PictureCallback() {
+
+
+
+
+
+
 //
-//        public void onPictureTaken(byte[] data, Camera camera) {
-//
-//            File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
-//            if (pictureFile == null){
-//                Toast.makeText(getApplicationContext(),"Error creating media file, check storage permissions" ,Toast.LENGTH_LONG).show();
-//                return;
+//    public static String getUserCountry(Context context) {
+//        try {
+//            final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+//            final String simCountry = tm.getSimCountryIso();
+//            if (simCountry != null && simCountry.length() == 2) { // SIM country code is available
+//                return simCountry.toLowerCase(Locale.US);
 //            }
-//
-//            try {
-//                FileOutputStream fos = new FileOutputStream(pictureFile);
-//                fos.write(data);
-//                fos.close();
-//            } catch (FileNotFoundException e) {
-//                Toast.makeText(getApplicationContext(),"File not found: " + e.getMessage() ,Toast.LENGTH_LONG).show();
-//
-//            } catch (IOException e) {
-//                Toast.makeText(getApplicationContext(),"File not found: " + e.getMessage() ,Toast.LENGTH_LONG).show();
+//            else if (tm.getPhoneType() != TelephonyManager.PHONE_TYPE_CDMA) { // device is not 3G (would be unreliable)
+//                String networkCountry = tm.getNetworkCountryIso();
+//                if (networkCountry != null && networkCountry.length() == 2) { // network country code is available
+//                    return networkCountry.toLowerCase(Locale.US);
+//                }
 //            }
 //        }
-//    };
-
-    public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
-        private SurfaceHolder mHolder;
-        private Camera mCamera;
-
-        public CameraPreview(Context context, Camera camera) {
-            super(context);
-            mCamera = camera;
-
-            // Install a SurfaceHolder.Callback so we get notified when the
-            // underlying surface is created and destroyed.
-            mHolder = getHolder();
-            mHolder.addCallback(this);
-            // deprecated setting, but required on Android versions prior to 3.0
-            mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-        }
-
-        public void surfaceCreated(SurfaceHolder holder) {
-            // The Surface has been created, now tell the camera where to draw the preview.
-            try {
-                mCamera.setPreviewDisplay(holder);
-                mCamera.startPreview();
-            } catch (IOException e) {
-                Toast.makeText(getApplicationContext(),"Error setting camera preview: " + e.getMessage() ,Toast.LENGTH_LONG).show();
-            }
-        }
-
-        public void surfaceDestroyed(SurfaceHolder holder) {
-            // empty. Take care of releasing the Camera preview in your activity.
-        }
-
-        public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
-            // If your preview can change or rotate, take care of those events here.
-            // Make sure to stop the preview before resizing or reformatting it.
-
-            if (mHolder.getSurface() == null) {
-                // preview surface does not exist
-                return;
-            }
-
-            // stop preview before making changes
-            try {
-                mCamera.stopPreview();
-            } catch (Exception e) {
-                // ignore: tried to stop a non-existent preview
-            }
-
-            // set preview size and make any resize, rotate or
-            // reformatting changes here
-
-            // start preview with new settings
-            try {
-                mCamera.setPreviewDisplay(mHolder);
-                mCamera.startPreview();
-
-            } catch (Exception e) {
-                Toast.makeText(getApplicationContext(),"Error starting camera preview: " + e.getMessage() ,Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    public static final int MEDIA_TYPE_IMAGE = 1;
-    //public static final int MEDIA_TYPE_VIDEO = 2;
-
-    /** Create a file Uri for saving an image or video */
-    private static Uri getOutputMediaFileUri(int type){
-        return Uri.fromFile(getOutputMediaFile(type));
-    }
-
-    /** Create a File for saving an image or video */
-    private static File getOutputMediaFile(int type){
-        // To be safe, you should check that the SDCard is mounted
-        // using Environment.getExternalStorageState() before doing this.
-
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "MyCameraApp");
-        // This location works best if you want the created images to be shared
-        // between applications and persist after your app has been uninstalled.
-
-        // Create the storage directory if it does not exist
-        if (! mediaStorageDir.exists()){
-            if (! mediaStorageDir.mkdirs()){
-                Log.d("MyCameraApp", "failed to create directory");
-                return null;
-            }
-        }
-
-        // Create a media file name
-        File mediaFile;
-        if (type == MEDIA_TYPE_IMAGE){
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "IMG_"+ "Name" + ".jpg");
-        }else {
-            return null;
-        }
-
-        return mediaFile;
-    }
+//        catch (Exception e) { }
+//        Toast.makeText(context, "Country " + Locale.US , Toast.LENGTH_LONG).show();
+//        return null;
+//    }
 }
