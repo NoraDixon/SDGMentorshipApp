@@ -1,4 +1,4 @@
-package com.example.sdgmentorshipapp.ui.dashboard;
+package com.cg.sdg.ui.dashboard;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

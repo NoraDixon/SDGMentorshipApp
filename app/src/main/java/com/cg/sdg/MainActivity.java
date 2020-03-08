@@ -1,7 +1,10 @@
-package com.example.sdgmentorshipapp;
+package com.cg.sdg;
+
+import com.cg.sdg.db.UserService;
 
 import android.os.Bundle;
 
+import com.example.sdgmentorshipapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,17 +13,21 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+
 public class MainActivity extends AppCompatActivity {
 
-    //private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("sdgmentorshipapp");
-   // private button test;
+    private UserService userService = new UserService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //get user data from firebase using UserService class
+        userService.getUsers();
+
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.

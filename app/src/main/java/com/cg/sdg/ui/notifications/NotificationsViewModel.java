@@ -1,4 +1,4 @@
-package com.example.sdgmentorshipapp.ui.notifications;
+package com.cg.sdg.ui.notifications;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

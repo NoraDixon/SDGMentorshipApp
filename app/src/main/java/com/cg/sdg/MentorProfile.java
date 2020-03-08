@@ -1,4 +1,4 @@
-package com.example.sdgmentorshipapp;
+package com.cg.sdg;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
