@@ -2,6 +2,7 @@ package com.cg.sdg.db;
 
 import androidx.annotation.NonNull;
 
+import com.cg.sdg.model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,8 +24,9 @@ public class UserService {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()){
-                    System.out.println("REMOVE THIS PRINTLN::: ");
-                    System.out.println(ds.getValue().toString());
+                    User user = ds.getValue(User.class);
+                    System.out.println("Value: " + ds.getValue());
+                    System.out.println("User: " + user);
                 }
             }
 
