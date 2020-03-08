@@ -4,7 +4,6 @@ import com.cg.sdg.db.UserService;
 
 import android.os.Bundle;
 
-import com.example.sdgmentorshipapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
