@@ -150,4 +150,24 @@ public class User {
     public void setMentorRequests(List<String> mentorRequests) {
         this.mentorRequests = mentorRequests;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userID='" + userID + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", pictureFileName='" + pictureFileName + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", isMentor=" + isMentor +
+                ", tagList=" + tagList +
+                ", bio='" + bio + '\'' +
+                ", favorites=" + favorites +
+                ", isApproved=" + isApproved +
+                ", language='" + language + '\'' +
+                ", location='" + location + '\'' +
+                ", mentorRequests=" + mentorRequests +
+                '}';
+    }
 }
