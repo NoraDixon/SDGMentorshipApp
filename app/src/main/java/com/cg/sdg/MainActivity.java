@@ -1,5 +1,6 @@
 package com.cg.sdg;
 
+import com.cg.sdg.db.TagService;
 import com.cg.sdg.db.UserService;
 
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import androidx.navigation.ui.NavigationUI;
 public class MainActivity extends AppCompatActivity {
 
     private UserService userService = new UserService();
+    private TagService tagService = new TagService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         //get user data from firebase using UserService class
         userService.getUsers();
 
+        //get tag data from firebase using TagService Class
+        tagService.getTags();
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
